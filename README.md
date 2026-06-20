@@ -1,28 +1,60 @@
-## 提示
+# 高质量<免费>交流群
 
-- **仅本人自用**
+点击链接加入群聊【IPQ技术讨论群】：https://qm.qq.com/q/v7nMhzB4oU
+该群为普通交流群。
 
-- **本人不对任何人因使用本仓库和编译的二进制执行文件所遭受的任何理论或实际的损失承担责任！**
+# 高质量<付费>中转站
 
-- **本仓库和编译的二进制执行文件禁止用于任何不符合上游仓库使用许可的用途，请务必严格遵守中华人民共和国互联网使用相关法律规定！**
+点击链接加入群聊【LiBwrt-Ai学习】：https://qm.qq.com/q/HTa7OiWNCU
+该群为AI中转站群。
 
-- **本仓库和编译的二进制执行文件完全遵守中华人民共和国相关法律法规和上游仓库的使用许可！**
+# OpenWRT-CI
 
-## 固件说明
+官方版：
 
-- 默认管理地址：`192.168.3.1`
-- 默认用户名：`root`
-- 默认密码：无
+https://github.com/immortalwrt/immortalwrt.git
 
-## 源码
+自用版：
 
-### 固件
+https://github.com/VIKINGYFY/immortalwrt.git
 
-- [VIKINGYFY/immortalwrt](https://github.com/VIKINGYFY/immortalwrt)
-- [LiBwrt/openwrt-6.x](https://github.com/LiBwrt/openwrt-6.x)
-- [immortalwrt/immortalwrt](https://github.com/immortalwrt/immortalwrt)
-- [qosmio/openwrt-ipq](https://github.com/qosmio/openwrt-ipq)
+# U-BOOT
 
-### 编译工具
+高通版-沉心：
 
-[VIKINGYFY/OpenWRT-CI](https://github.com/VIKINGYFY/openwrt-ci)
+https://github.com/chenxin527/uboot-ipq60xx-emmc-build.git
+
+https://github.com/chenxin527/uboot-ipq60xx-nand-build.git
+
+https://github.com/chenxin527/uboot-ipq60xx-nor-build.git
+
+高通版-小猪：
+
+https://github.com/1980490718/u-boot-2016.git
+
+联发科-全新版：
+
+https://github.com/VIKINGYFY/UBOOT-CI/releases
+
+联发科-官方版：
+
+https://drive.wrt.moe/uboot/mediatek
+
+# 固件简要说明
+
+固件每天早上5点自动编译。
+
+固件信息里的时间为编译开始的时间，方便核对上游源码提交时间。
+
+MEDIATEK系列、QUALCOMMAX系列、ROCKCHIP系列、X86系列。
+
+# 目录简要说明
+
+workflows——自定义CI配置
+
+Scripts——自定义脚本
+
+Config——自定义配置
+
+#
+[![Stargazers over time](https://starchart.cc/VIKINGYFY/OpenWRT-CI.svg?variant=adaptive)](https://starchart.cc/VIKINGYFY/OpenWRT-CI)
