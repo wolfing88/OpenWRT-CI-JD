@@ -2,6 +2,14 @@
 # SPDX-License-Identifier: MIT
 # Copyright (C) 2026 VIKINGYFY
 
+#部署自定义文件到构建根目录（OpenWRT files/ overlay机制）
+if [ -d "$GITHUB_WORKSPACE/files" ]; then
+	cp -rf $GITHUB_WORKSPACE/files/* ./
+	chmod +x ./etc/init.d/apkoverlay 2>/dev/null
+	chmod +x ./etc/uci-defaults/99-apkoverlay 2>/dev/null
+	echo "Custom files deployed to build root!"
+fi
+
 #移除luci-app-attendedsysupgrade
 sed -i "/attendedsysupgrade/d" $(find ./feeds/luci/collections/ -type f -name "Makefile")
 #修改默认主题

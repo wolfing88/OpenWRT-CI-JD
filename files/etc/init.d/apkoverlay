@@ -1,0 +1,46 @@
+#!/bin/sh /etc/rc.common
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 VIKINGYFY
+#
+# APK Overlay Cache Redirect
+# Forces APK package cache from volatile /tmp (RAM) to persistent /overlay (flash)
+# Prevents OOM when installing multiple or large packages on devices like JDCloud Athena
+
+START=11
+STOP=99
+
+NAME="apkoverlay"
+
+boot() {
+    start
+}
+
+start() {
+    # Ensure persistent cache directory exists on flash storage
+    # JDCloud Athena has ~1.8GB available on /overlay
+    mkdir -p /overlay/apk-cache
+
+    # Clean up any stale tmpfs-based APK caches to free RAM immediately
+    rm -rf /tmp/apk-cache /tmp/apk /tmp/apkcache 2>/dev/null
+
+    # Only configure if APK package manager is installed
+    if [ -x /usr/bin/apk ]; then
+        # Force APK cache directories to point to overlay storage
+        # /var/cache/apk  → /overlay/apk-cache
+        # /etc/apk/cache   → /overlay/apk-cache
+        for dir in "/var/cache/apk" "/etc/apk/cache"; do
+            local parent="${dir%/*}"
+            [ ! -d "$parent" ] && mkdir -p "$parent"
+
+            # Remove existing real directory (not symlink)
+            if [ -d "$dir" ] && [ ! -L "$dir" ]; then
+                # Preserve any existing cached packages
+                cp -af "$dir"/* /overlay/apk-cache/ 2>/dev/null
+                rm -rf "$dir"
+            fi
+
+            # Create symlink to overlay storage
+            [ ! -e "$dir" ] && ln -sf /overlay/apk-cache "$dir"
+        done
+    fi
+}

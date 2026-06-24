@@ -1,0 +1,10 @@
+#!/bin/sh
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 VIKINGYFY
+#
+# Enable apkoverlay boot init script for persistent APK cache redirect
+# Runs once on first boot to enable the init.d service
+
+[ -x /etc/init.d/apkoverlay ] && /etc/init.d/apkoverlay enable
+
+exit 0
