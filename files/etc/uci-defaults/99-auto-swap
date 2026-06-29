@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# 1. 如果不存在交换文件，则在 /etc/ 下（即物理 overlay 闪存中）创建一个 1GB 的实体文件
+if [ ! -f /etc/swapfile ]; then
+    # bs=1M count=1024 刚好就是 1024MB = 1GB
+    dd if=/dev/zero of=/etc/swapfile bs=1M count=1024
+    chmod 0600 /etc/swapfile
+    mkswap /etc/swapfile
+fi
+
+# 2. 将挂载规则永久固化到系统的 uci 账本 (fstab 配置文件) 中
+uci -q batch <<EOF
+set fstab.swapfile=swap
+set fstab.swapfile.device='/etc/swapfile'
+set fstab.swapfile.enabled='1'
+commit fstab
+EOF
+
+# 3. 触发系统立即根据新账本启用 Swap，让刷机后的第一次开机当场生效
+/etc/init.d/fstab reload
+
+exit 0
