@@ -7,7 +7,6 @@ if [ -d "$GITHUB_WORKSPACE/files" ]; then
 	cp -rf $GITHUB_WORKSPACE/files/* ./
 	chmod +x ./etc/init.d/apkoverlay 2>/dev/null
 	chmod +x ./etc/uci-defaults/99-apkoverlay 2>/dev/null
-	chmod +x ./etc/uci-defaults/99-init-swap 2>/dev/null
 	echo "Custom files deployed to build root!"
 fi
 
