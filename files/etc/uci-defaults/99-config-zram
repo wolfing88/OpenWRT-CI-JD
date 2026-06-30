@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# 1. 获取系统总物理内存大小（单位：KB）
+TOTAL_MEM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+
+# 2. 将 KB 转换为 MB
+TOTAL_MEM_MB=$((TOTAL_MEM / 1024))
+
+# 3. 动态计算 zram 大小（设为物理内存实际可用值的 50%）
+# 雅典娜 1G 约算出来 448MB，亚瑟 512M 约算出来 220MB
+ZRAM_SIZE=$((TOTAL_MEM_MB / 2))
+
+# 4. 防止极端情况（如果内存太小，设置一个 128MB 的保底值）
+if [ "$ZRAM_SIZE" -lt 128 ]; then
+    ZRAM_SIZE=128
+fi
+
+# 5. 将计算出的动态大小和高效的 lz4 算法写入系统配置
+uci -q batch <<EOF
+  set system.@system[0].zram_size_mb='$ZRAM_SIZE'
+  set system.@system[0].zram_comp_algo='lz4'
+  commit system
+EOF
+
+# 6. 开启 zram 开机自启，并立即重启服务应用配置
+/etc/init.d/zram enable
+/etc/init.d/zram restart
+
+exit 0
